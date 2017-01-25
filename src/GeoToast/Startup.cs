@@ -37,6 +37,13 @@ namespace GeoToast
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            var options = new JwtBearerOptions
+            {
+                Audience = Configuration["Auth0:ApiIdentifier"],
+                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+            };
+            app.UseJwtBearerAuthentication(options);
+
             app.UseMvc();
         }
     }
