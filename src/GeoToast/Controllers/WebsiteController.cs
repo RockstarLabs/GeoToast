@@ -7,11 +7,12 @@ using GeoToast.Data.Models;
 using GeoToast.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeoToast.Controllers
 {
     //[Authorize]
-    [Route("api/[controller]")]
+    [Route("api/website")]
     public class WebsiteController : Controller
     {
         private readonly GeoToastDbContext _dbContext;
@@ -31,6 +32,17 @@ namespace GeoToast.Controllers
             return _mapper.Map<List<WebsiteReadModel>>(_dbContext.Websites);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var website = await _dbContext.Websites.FirstOrDefaultAsync(w => w.Id == id);
+
+            if (website == null)
+            return NotFound();
+
+            return  Ok(_mapper.Map<WebsiteReadModel>(website));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]WebsiteCreateModel model)
         {
@@ -43,7 +55,7 @@ namespace GeoToast.Controllers
                 _dbContext.Websites.Add(website);
                 await _dbContext.SaveChangesAsync();
 
-                return CreatedAtAction("Get", website.Id);
+                return CreatedAtAction("Get", new { id = website.Id }, _mapper.Map<WebsiteReadModel>(website));
             }
             
             return BadRequest();
