@@ -12,17 +12,17 @@ namespace GeoToast.Controllers
 {
     //[Authorize]
     [Route("api/[controller]")]
-    public class WebsiteController
+    public class WebsiteController : Controller
     {
         private readonly GeoToastDbContext _dbContext;
         private readonly IMapper _mapper;
-        
+
         public WebsiteController(GeoToastDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public IEnumerable<WebsiteReadModel> Get()
         {
@@ -30,16 +30,23 @@ namespace GeoToast.Controllers
 
             return _mapper.Map<List<WebsiteReadModel>>(_dbContext.Websites);
         }
-  
+
         [HttpPost]
-        public async Task Post([FromBody]WebsiteCreateModel model)
+        public async Task<IActionResult> Post([FromBody]WebsiteCreateModel model)
         {
-            // TODO: Set User ID
+            if (ModelState.IsValid)
+            {
+                // TODO: Set User ID
 
-            var website = _mapper.Map<Website>(model);
+                var website = _mapper.Map<Website>(model);
 
-            _dbContext.Websites.Add(website);
-            await _dbContext.SaveChangesAsync();
+                _dbContext.Websites.Add(website);
+                await _dbContext.SaveChangesAsync();
+
+                return CreatedAtAction("Get", website.Id);
+            }
+            
+            return BadRequest();
         }
     }
 }

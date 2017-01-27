@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 
 namespace GeoToast
 {
@@ -33,7 +34,8 @@ namespace GeoToast
             services.AddDbContext<GeoToastDbContext>(options => options.UseSqlite("Filename=./GeoToast.db"));
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             // Add AutoMapper
             services.AddAutoMapper();
