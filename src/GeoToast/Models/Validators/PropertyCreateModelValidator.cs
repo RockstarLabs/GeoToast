@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace GeoToast.Models.Validators
 {
-    public class WebsiteCreateModelValidator : AbstractValidator<WebsiteCreateModel>
+    public class PropertyCreateModelValidator : AbstractValidator<PropertyCreateModel>
     {
-        public WebsiteCreateModelValidator()
+        public PropertyCreateModelValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Url).NotEmpty();

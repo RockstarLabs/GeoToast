@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GeoToast.Data;
+using GeoToast.Data.Models;
 
 namespace GeoToast.Migrations
 {
@@ -15,22 +16,26 @@ namespace GeoToast.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
-            modelBuilder.Entity("GeoToast.Data.Models.Website", b =>
+            modelBuilder.Entity("GeoToast.Data.Models.Property", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Kind");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("Url");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Websites");
+                    b.ToTable("Properties");
                 });
         }
     }

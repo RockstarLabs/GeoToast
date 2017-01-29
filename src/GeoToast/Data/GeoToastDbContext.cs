@@ -5,7 +5,7 @@ namespace GeoToast.Data
 {
     public class GeoToastDbContext : DbContext
     {
-        public DbSet<Website> Websites { get; set; }
+        public DbSet<Property> Properties { get; set; }
 
         public GeoToastDbContext(DbContextOptions<GeoToastDbContext> options)
              : base(options)
@@ -14,8 +14,8 @@ namespace GeoToast.Data
  
          protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
-             modelBuilder.Entity<Website>()
-                .HasIndex(w => w.UserId);
+             modelBuilder.Entity<Property>()
+                .HasIndex(p => p.UserId);
          }
     }
 }
