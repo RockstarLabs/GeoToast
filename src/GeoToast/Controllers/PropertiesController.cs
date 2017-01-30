@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GeoToast.Data;
 using GeoToast.Data.Models;
+using GeoToast.Infrastructure.Filters;
 using GeoToast.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +14,7 @@ namespace GeoToast.Controllers
 {
     //[Authorize]
     [Route("api/properties")]
+    [ValidateModel]
     public class PropertiesController : Controller
     {
         private readonly GeoToastDbContext _dbContext;
@@ -39,9 +40,9 @@ namespace GeoToast.Controllers
             var website = await _dbContext.Properties.FirstOrDefaultAsync(w => w.Id == id);
 
             if (website == null)
-            return NotFound();
+                return NotFound();
 
-            return  Ok(_mapper.Map<PropertyReadModel>(website));
+            return Ok(_mapper.Map<PropertyReadModel>(website));
         }
 
         [HttpPost]
@@ -49,18 +50,13 @@ namespace GeoToast.Controllers
         {
             string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-            if (ModelState.IsValid)
-            {
-                var property = _mapper.Map<Property>(model);
-                property.UserId = userId;
+            var property = _mapper.Map<Property>(model);
+            property.UserId = userId;
 
-                _dbContext.Properties.Add(property);
-                await _dbContext.SaveChangesAsync();
+            _dbContext.Properties.Add(property);
+            await _dbContext.SaveChangesAsync();
 
-                return CreatedAtAction("Get", new { id = property.Id }, _mapper.Map<PropertyReadModel>(property));
-            }
-            
-            return BadRequest();
+            return CreatedAtAction("Get", new { id = property.Id }, _mapper.Map<PropertyReadModel>(property));
         }
     }
 }
