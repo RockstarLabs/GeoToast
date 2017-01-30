@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoToast.Data;
@@ -46,16 +47,17 @@ namespace GeoToast.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]PropertyCreateModel model)
         {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             if (ModelState.IsValid)
             {
-                // TODO: Set User ID
+                var property = _mapper.Map<Property>(model);
+                property.UserId = userId;
 
-                var website = _mapper.Map<Property>(model);
-
-                _dbContext.Properties.Add(website);
+                _dbContext.Properties.Add(property);
                 await _dbContext.SaveChangesAsync();
 
-                return CreatedAtAction("Get", new { id = website.Id }, _mapper.Map<PropertyReadModel>(website));
+                return CreatedAtAction("Get", new { id = property.Id }, _mapper.Map<PropertyReadModel>(property));
             }
             
             return BadRequest();
