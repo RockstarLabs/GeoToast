@@ -7,12 +7,13 @@ using GeoToast.Data;
 using GeoToast.Data.Models;
 using GeoToast.Infrastructure.Filters;
 using GeoToast.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeoToast.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/properties")]
     [ValidateModel]
     public class PropertiesController : Controller
