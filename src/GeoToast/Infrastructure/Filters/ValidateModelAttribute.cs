@@ -11,8 +11,6 @@ namespace GeoToast.Infrastructure.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                context.ModelState.AddModelError("", "This is a model wide error");
-
                 context.Result = new ValidationFailedResult(context.ModelState);
             }
         }
