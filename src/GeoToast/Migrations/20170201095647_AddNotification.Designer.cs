@@ -9,9 +9,10 @@ using GeoToast.Data.Models;
 namespace GeoToast.Migrations
 {
     [DbContext(typeof(GeoToastDbContext))]
-    partial class GeoToastDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170201095647_AddNotification")]
+    partial class AddNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");

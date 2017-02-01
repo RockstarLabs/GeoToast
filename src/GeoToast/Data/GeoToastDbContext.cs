@@ -5,6 +5,8 @@ namespace GeoToast.Data
 {
     public class GeoToastDbContext : DbContext
     {
+        public DbSet<Notification> Notifications { get; set; }
+        
         public DbSet<Property> Properties { get; set; }
 
         public GeoToastDbContext(DbContextOptions<GeoToastDbContext> options)
