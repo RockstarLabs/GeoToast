@@ -8,9 +8,11 @@ namespace GeoToast.Models.Validators
         {
             RuleFor(x => x.StartDate).NotEmpty();
             RuleFor(x => x.EndDate).NotEmpty();
-            RuleFor(x => x.Location).NotNull();
-            RuleFor(x => x.Location.Longitude).NotEmpty().When(x => x.Location != null);
-            RuleFor(x => x.Location.Latitude).NotEmpty().When(x => x.Location != null);
+            RuleFor(x => x.Location)
+                .NotNull()
+                .SetValidator(new LocationModelValidator());
+            // RuleFor(x => x.Location.Longitude).NotEmpty().When(x => x.Location != null);
+            // RuleFor(x => x.Location.Latitude).NotEmpty().When(x => x.Location != null);
         }
     }
 }
