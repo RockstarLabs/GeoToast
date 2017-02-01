@@ -28,22 +28,33 @@ namespace GeoToast.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<PropertyReadModel> Get()
+        public IActionResult Get()
         {
-            // TODO: Only select websites for current User
+            // Get User ID
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-            return _mapper.Map<List<PropertyReadModel>>(_dbContext.Properties);
+            // Only get properties for this user
+            var properties = _dbContext.Properties.Where(x => x.UserId == userId);
+
+            // return mapped list
+            return Ok(_mapper.Map<List<PropertyReadModel>>(properties));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var website = await _dbContext.Properties.FirstOrDefaultAsync(w => w.Id == id);
+            // Get User ID
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-            if (website == null)
+            // Get property for this ID and user
+            var property = await _dbContext.Properties.FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
+
+            // 404 if not found
+            if (property == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<PropertyReadModel>(website));
+            // return mapped object
+            return Ok(_mapper.Map<PropertyReadModel>(property));
         }
 
         [HttpPost]

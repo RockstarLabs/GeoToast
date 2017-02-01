@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoToast.Data;
@@ -29,8 +30,12 @@ namespace GeoToast.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int propertyId)
         {
+            // Get User ID
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             // Get the property
-            var property = await _dbContext.Properties.FirstOrDefaultAsync(x => x.Id == propertyId);
+            var property = await _dbContext.Properties.FirstOrDefaultAsync(
+                x => x.Id == propertyId && x.UserId == userId);
 
             // If the property does not exist, return 404
             if (property == null)
@@ -46,8 +51,13 @@ namespace GeoToast.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int propertyId, int id)
         {
-            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(x => x.Id == id && x.Property.Id == propertyId);
+            // Get User ID
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
+            // Get notification by Id, Property and User
+            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(
+                x => x.Id == id && x.Property.Id == propertyId && x.Property.UserId == userId);
+            
             if (notification == null)
                 return NotFound();
 
@@ -57,8 +67,12 @@ namespace GeoToast.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(int propertyId, [FromBody]NotificationCreateModel model)
         {
+            // Get User ID
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             // Get the property
-            var property = await _dbContext.Properties.FirstOrDefaultAsync(x => x.Id == propertyId);
+            var property = await _dbContext.Properties.FirstOrDefaultAsync(
+                x => x.Id == propertyId && x.UserId == userId);
 
             // If the property does not exist, return 404
             if (property == null)
