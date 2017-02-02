@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using GeoToast.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace GeoToast
 {
@@ -39,6 +42,9 @@ namespace GeoToast
 
             // Add AutoMapper
             services.AddAutoMapper();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IIPAddressService, HeaderIpAddressService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
