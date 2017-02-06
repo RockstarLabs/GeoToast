@@ -1,0 +1,1 @@
+﻿This code is blatantly ripped from https://github.com/scottschluer/Geolocation because it is not currently available as a .NET Standard Lib. I will convert it and contribute back to the original project. But now I an pushed for time, so I am simply adding the code to my solution.
