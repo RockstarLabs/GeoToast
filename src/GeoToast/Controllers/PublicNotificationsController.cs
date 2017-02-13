@@ -11,6 +11,10 @@ using MaxMind.GeoIP2;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Logging;
 
 namespace GeoToast.Controllers
@@ -38,8 +42,10 @@ namespace GeoToast.Controllers
         }
 
         [HttpGet("{propertyId}")]
+        [EnableCors("AllowAllOrigins")]
         public IActionResult Get(int propertyId)
         {
+            /*
             using (var reader = new DatabaseReader(_hostingEnvironment.ContentRootPath + "\\GeoLite2-City.mmdb"))
             {
                 // Determine the IP Address of the request
@@ -53,7 +59,7 @@ namespace GeoToast.Controllers
                 if (city?.Location?.Latitude == null || city?.Location?.Longitude == null)
                 {
                     _logger.LogInformation("Unable to determine city from IP Address {ipAddress}", ipAddress);
-                    return BadRequest(); // TODO: Not it is not a bad request. Come back and fix
+                    return BadRequest(); // TODO: No, it is not a bad request. Come back and fix
                 }
 
                 // Now that we have the city, determine a 100KM radius around the city coordinates
@@ -77,6 +83,15 @@ namespace GeoToast.Controllers
                 );
 
                 return Ok(_mapper.Map<List<NotificationReadModel>>(notifications));
+            }
+            */
+
+            // We need to load the actual notification from the DB, but for now I am just loading one from file
+            // to test whether we can inject it successfully into the HTML page
+            var resourceStream = this.GetType().GetTypeInfo().Assembly.GetManifestResourceStream("GeoToast.Resources.sample-notification.html");
+            using (var streamReader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                return Ok(streamReader.ReadToEnd());
             }
         }
 

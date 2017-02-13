@@ -43,6 +43,13 @@ namespace GeoToast
         {
             services.AddDbContext<GeoToastDbContext>(options => options.UseSqlite("Filename=./GeoToast.db"));
 
+            // Add CORS
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                }));
+
             // Add framework services.
             services.AddMvc()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
@@ -72,6 +79,7 @@ namespace GeoToast
                 Authority = $"https://{Configuration["Auth0:Domain"]}/"
             };
             app.UseJwtBearerAuthentication(options);
+
 
             app.UseMvc();
         }

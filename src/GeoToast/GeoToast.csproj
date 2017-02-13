@@ -9,6 +9,9 @@
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\sample-notification.html" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="wwwroot\**\*;**\*.cshtml;appsettings.json;web.config">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -43,6 +46,9 @@
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0-msbuild3-final" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.1.0-preview4-final" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\sample-notification.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Geolocation\Geolocation.csproj" />

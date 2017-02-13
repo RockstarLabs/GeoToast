@@ -251,9 +251,18 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 
+<script>
+(function () {
+
+    $.get('http://localhost:5000/api/notifications/2', function(html) {
+		$('body').append(html);
+	});
+
+})();
+</script>
 
 <!-- GeoToast Notification Bar -->
-<div class="geotoast-notification-bar">
+<!--<div class="geotoast-notification-bar">
 	<span class="container">
 		Hey, I'll be visiting Tokyo soon. Care to meet up?
 		<a class="cta-button" href="#">Hell Yeah!</a>
@@ -293,6 +302,6 @@
 	color: #55C455 !important;
 	text-decoration: none;
 }
-</style>
+</style>-->
 	</body>
 </html>
