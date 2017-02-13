@@ -51,7 +51,10 @@ namespace GeoToast
             services.AddAutoMapper();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.TryAddSingleton<IIPAddressService, HeaderIpAddressService>();
+            services.TryAddSingleton<IIPAddressService>(provider => new RequestIpAddressService(provider.GetRequiredService<IHttpContextAccessor>(), new Dictionary<string, string>()
+            {
+                { "::1", "49.229.172.139" }
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
