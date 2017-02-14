@@ -14,28 +14,37 @@
         text-align: center;
     }
 
-        .geotoast-notification-bar .container {
-            color: white;
-            display: inline-block;
-            margin-bottom: 1.5em;
-            margin-top: 1.5em;
-        }
+    .geotoast-notification-bar .container {
+        color: white;
+        display: inline-block;
+        margin-bottom: 1.5em;
+        margin-top: 1.5em;
+    }
 
-            .geotoast-notification-bar .container .cta-button,
-            .geotoast-notification-bar .container .cta-button:visited,
-            .geotoast-notification-bar .container .cta-button:active {
-                color: white;
-                border: 2px solid white;
-                border-radius: 5px;
-                font-weight: bold;
-                margin-left: 10px;
-                padding: 7px;
-                text-decoration: none;
-            }
+    .geotoast-notification-bar .container .cta-button,
+    .geotoast-notification-bar .container .cta-button:visited,
+    .geotoast-notification-bar .container .cta-button:active {
+        color: white;
+        border: 2px solid white;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-left: 10px;
+        padding: 7px;
+        text-decoration: none;
+    }
 
-                .geotoast-notification-bar .container .cta-button:hover {
-                    background-color: white;
-                    color: #55C455 !important;
-                    text-decoration: none;
-                }
+    .geotoast-notification-bar .container .cta-button:hover {
+        background-color: white;
+        color: #55C455 !important;
+        text-decoration: none;
+    }
 </style>
+<script>
+    (function () {
+
+        $('.cta-button').click(function() {
+            alert("Handler for .click() called.");
+        });
+
+    })();
+</script>
