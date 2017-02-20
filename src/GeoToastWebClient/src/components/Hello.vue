@@ -1,6 +1,16 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <el-switch
+  v-model="value1"
+  on-text=""
+  off-text="">
+</el-switch>
+<el-switch
+  v-model="value2"
+  on-color="#13ce66"
+  off-color="#ff4949">
+</el-switch>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -25,7 +35,9 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      value1: '',
+      value2: ''
     }
   }
 }
